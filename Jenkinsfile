@@ -1,27 +1,20 @@
 pipeline {
-    agent { label 'java-slave' }
+    agent any 
     stages {
         stage('Build') { 
-             steps {
-                sh 'mvn clean package'
+            steps {
+                // 
+            }
         }
+        stage('Test') { 
+            steps {
+                // 
+            }
         }
-        
-        stage('push to jfrog') { 
-             steps {
-                rtUpload (
-                serverId: 'jfrog',
-                spec: '''{
-                    "files": [
-                {
-                "pattern": "target/*.war",
-                "target": "java_app/"
-                }
-         ]
-    }''',
-                )
-                }
+        stage('Deploy') { 
+            steps {
+                // 
+            }
         }
-        }
-        
     }
+}
