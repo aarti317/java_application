@@ -1,27 +1,17 @@
 pipeline {
-    agent { label 'java-slave' }
+    agent any
     stages {
         stage('Build') { 
-             steps {
+            steps {
                 sh 'mvn clean package'
         }
         }
-        
-        stage('push to jfrog') { 
-             steps {
-                rtUpload (
-                serverId: 'jfrog',
-                spec: '''{
-                    "files": [
-                {
-                "pattern": "target/*.war",
-                "target": "java_app/"
+        stage('SonarQube Analysis') { 
+            steps {
+                with SonarQubeEnv ('sonar') {
+                sh 'mvn sonar: sonar'
                 }
-         ]
-    }''',
-                )
-                }
+            }
         }
-        }
-        
     }
+}
